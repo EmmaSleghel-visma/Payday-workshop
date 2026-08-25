@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="is">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payday — Salary run (Salary Run)</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <div class="app-header">
+        <div class="brand">
+          <span class="brand-mark">🕴️</span>
+          <div>
+            <h1>Salary run</h1>
+            <p class="subtitle">Salary run — demo</p>
+          </div>
+        </div>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-label="Toggle color theme"
+          aria-pressed="false"
+        >
+          Dark mode
+        </button>
+      </div>
+
+      <section class="period" aria-label="Pay period">
+        <label for="period-input">Pay period</label>
+        <input id="period-input" data-testid="period-input" type="month" value="2026-08" />
+        <span id="period-label" data-testid="period-label" class="period-label"></span>
+        <span id="pay-date-label" data-testid="pay-date-label" class="period-label"></span>
+      </section>
+
+      <form id="employee-form" class="employee-form" autocomplete="off">
+        <div class="field">
+          <label for="name-input">Name</label>
+          <input
+            id="name-input"
+            data-testid="name-input"
+            name="name"
+            type="text"
+            placeholder="Anna Karlsson"
+            aria-label="Employee name"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="kennitala-input">Kennitala</label>
+          <input
+            id="kennitala-input"
+            data-testid="kennitala-input"
+            name="kennitala"
+            type="text"
+            placeholder="120375-2029"
+            aria-label="Kennitala"
+            required
+          />
+        </div>
+        <div class="field">
+          <label for="salary-input">Monthly gross (ISK)</label>
+          <input
+            id="salary-input"
+            data-testid="salary-input"
+            name="salary"
+            type="number"
+            placeholder="750000"
+            aria-label="Monthly gross salary in ISK"
+            required
+          />
+        </div>
+        <button type="submit" data-testid="add-employee">Add employee</button>
+      </form>
+
+      <p id="form-error" data-testid="form-error" class="form-error" role="alert" hidden></p>
+
+      <table class="payroll" aria-live="polite">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only">Include in run</span></th>
+            <th scope="col">Employee</th>
+            <th scope="col">Kennitala</th>
+            <th scope="col" class="num">Gross</th>
+            <th scope="col" class="num">Pension</th>
+            <th scope="col" class="num">Tax</th>
+            <th scope="col" class="num">Net</th>
+            <th scope="col"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody id="employee-list"></tbody>
+      </table>
+
+      <p id="empty-state" data-testid="empty-state" class="empty-state">
+        No employees yet. Add one above to start a salary run.
+      </p>
+
+      <footer class="run-summary">
+        <dl>
+          <div>
+            <dt>Employees in run</dt>
+            <dd id="run-count" data-testid="run-count">0</dd>
+          </div>
+          <div>
+            <dt>Total gross</dt>
+            <dd id="total-gross" data-testid="total-gross">0 kr.</dd>
+          </div>
+          <div>
+            <dt>Total net</dt>
+            <dd id="total-net" data-testid="total-net">0 kr.</dd>
+          </div>
+        </dl>
+        <button id="clear-paid" class="clear-paid" type="button" data-testid="clear-paid" hidden>
+          Clear paid
+        </button>
+      </footer>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

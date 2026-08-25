@@ -1,0 +1,9 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+results.json
+dist/
+.DS_Store
+facilitator/
