@@ -1,0 +1,1000 @@
+<title>Payday Run of Show</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#f5f7f9; --surface:#fff; --surface-2:#eef1f5; --sunk:#e7ebf1;
+  --ink:#111820; --ink-2:#45525f; --ink-3:#6d7b89; --line:#dce2ea; --line-2:#c8d2dd;
+  --accent:#0b5ed7; --accent-soft:#e6eefc; --accent-line:#b9cff5;
+  --hands:#0e7490; --hands-soft:#def0f4; --hands-line:#a9d6e0;
+  --gate:#a8560a; --gate-soft:#fbeedd; --gate-line:#eccfa6;
+  --reveal:#a81f16; --reveal-soft:#fcebe9; --reveal-line:#f0bfba;
+  --shadow:0 1px 2px rgba(17,24,32,.05), 0 8px 22px rgba(17,24,32,.055);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0c1117; --surface:#141c25; --surface-2:#1b2531; --sunk:#101820;
+    --ink:#e6edf4; --ink-2:#a7b4c2; --ink-3:#7b8896; --line:#25313f; --line-2:#334252;
+    --accent:#6da6ff; --accent-soft:#12233a; --accent-line:#26405f;
+    --hands:#45bccd; --hands-soft:#0d2a31; --hands-line:#1d4650;
+    --gate:#e2a559; --gate-soft:#2c2114; --gate-line:#4d3a1e;
+    --reveal:#ff8f7f; --reveal-soft:#301613; --reveal-line:#582722;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 22px rgba(0,0,0,.32);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0c1117; --surface:#141c25; --surface-2:#1b2531; --sunk:#101820;
+  --ink:#e6edf4; --ink-2:#a7b4c2; --ink-3:#7b8896; --line:#25313f; --line-2:#334252;
+  --accent:#6da6ff; --accent-soft:#12233a; --accent-line:#26405f;
+  --hands:#45bccd; --hands-soft:#0d2a31; --hands-line:#1d4650;
+  --gate:#e2a559; --gate-soft:#2c2114; --gate-line:#4d3a1e;
+  --reveal:#ff8f7f; --reveal-soft:#301613; --reveal-line:#582722;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 22px rgba(0,0,0,.32);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:400 15.5px/1.6 "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.disp{font-family:"Familjen Grotesk", ui-sans-serif, system-ui, sans-serif; text-wrap:balance}
+.mono, code{font-family:"IBM Plex Mono", ui-monospace, Menlo, monospace; font-variant-numeric:tabular-nums; overflow-wrap:anywhere}
+a{color:var(--accent)}
+
+.wrap{max-width:60rem; margin:0 auto; padding:0 1.25rem 5rem}
+
+/* ---------- header ---------- */
+header{border-bottom:1px solid var(--line); background:var(--surface)}
+.hd{max-width:60rem; margin:0 auto; padding:1.6rem 1.25rem 1.35rem}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-3); margin:0 0 .5rem
+}
+h1{margin:0; font-size:clamp(1.7rem,4.4vw,2.4rem); font-weight:700; letter-spacing:-.02em; line-height:1.1}
+.sub{margin:.55rem 0 0; color:var(--ink-2); max-width:44rem}
+.stats{display:flex; flex-wrap:wrap; gap:.45rem; margin-top:1.05rem}
+.stat{
+  display:flex; align-items:baseline; gap:.42rem; background:var(--surface-2);
+  border:1px solid var(--line); border-radius:7px; padding:.34rem .6rem; font-size:.8rem
+}
+.stat b{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-weight:600}
+.stat span{color:var(--ink-3)}
+
+/* who-is-on-what legend */
+.split{display:grid; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); gap:.5rem; margin-top:1.05rem}
+.split>div{
+  background:var(--surface-2); border:1px solid var(--line); border-left:3px solid var(--accent);
+  border-radius:8px; padding:.55rem .7rem; min-width:0
+}
+.split>div:nth-child(2){border-left-color:var(--hands)}
+.split>div:nth-child(3){border-left-color:var(--line-2)}
+.split b{
+  display:block; font-family:"IBM Plex Mono",monospace; font-size:.63rem; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--ink-3); margin-bottom:.18rem
+}
+.split span{font-size:.84rem; color:var(--ink-2)}
+.split-note{margin:.6rem 0 0; font-size:.8rem; color:var(--ink-3)}
+
+/* ---------- sticky bar ---------- */
+.bar{
+  position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter:blur(9px); border-bottom:1px solid var(--line)
+}
+.bar-in{
+  max-width:60rem; margin:0 auto; padding:.5rem 1.25rem;
+  display:flex; align-items:center; gap:.75rem; flex-wrap:wrap
+}
+.now{
+  font-family:"IBM Plex Mono",monospace; font-size:.76rem; font-variant-numeric:tabular-nums;
+  color:var(--ink-3); white-space:nowrap
+}
+.now b{color:var(--accent)}
+.jump{display:flex; gap:.25rem; overflow-x:auto; flex:1; min-width:0; scrollbar-width:thin}
+.jump button{
+  flex:0 0 auto; font:500 .74rem/1 "IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  background:transparent; color:var(--ink-2); border:1px solid var(--line);
+  border-radius:6px; padding:.35rem .5rem; cursor:pointer
+}
+.jump button:hover{border-color:var(--line-2); color:var(--ink)}
+.jump button.on{background:var(--accent-soft); border-color:var(--accent-line); color:var(--accent)}
+.toggles{display:flex; gap:.25rem; flex:0 0 auto}
+.tg{
+  font:500 .74rem/1 "IBM Plex Sans",sans-serif; background:var(--surface-2); color:var(--ink-2);
+  border:1px solid var(--line); border-radius:6px; padding:.38rem .6rem; cursor:pointer
+}
+.tg[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+:root[data-theme="dark"] .tg[aria-pressed="true"],
+:root:not([data-theme="light"]) .tg[aria-pressed="true"]{color:#0c1117}
+button:focus-visible, summary:focus-visible, a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* ---------- prep ---------- */
+.prep{
+  margin:1.6rem 0 .5rem; background:var(--surface); border:1px solid var(--line);
+  border-radius:11px; box-shadow:var(--shadow); overflow:hidden
+}
+.prep>summary{
+  cursor:pointer; padding:.85rem 1.05rem; font-family:"Familjen Grotesk",sans-serif;
+  font-weight:600; display:flex; align-items:center; gap:.6rem; list-style:none
+}
+.prep>summary::-webkit-details-marker{display:none}
+.prep>summary::before{content:"▸"; color:var(--ink-3); font-size:.8rem}
+.prep[open]>summary::before{content:"▾"}
+.prep .body{padding:0 1.05rem 1.05rem; border-top:1px solid var(--line)}
+.chk{display:flex; gap:.6rem; align-items:flex-start; padding:.42rem 0; border-bottom:1px dashed var(--line)}
+.chk:last-child{border-bottom:0}
+.chk input{margin-top:.32rem; accent-color:var(--accent); flex:0 0 auto}
+.chk label{cursor:pointer}
+.chk.done label{color:var(--ink-3); text-decoration:line-through}
+
+/* ---------- timeline ---------- */
+.block{margin-top:2.1rem; scroll-margin-top:4rem}
+.block-hd{display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:.7rem}
+.block-time{
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:1rem; font-weight:600; color:var(--accent)
+}
+.block-hd h2{margin:0; font-size:1.18rem; font-weight:600; letter-spacing:-.01em}
+.mins{
+  font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--ink-3);
+  border:1px solid var(--line); border-radius:20px; padding:.1rem .45rem
+}
+.block-note{margin:.15rem 0 .9rem; color:var(--ink-2); font-size:.9rem}
+
+.row{display:grid; grid-template-columns:4.1rem 1fr; gap:.85rem; margin-bottom:.5rem}
+.row>*{min-width:0}
+.rail{
+  font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:.8rem; color:var(--ink-3); padding-top:.85rem; text-align:right; white-space:nowrap
+}
+.rail em{display:block; font-style:normal; font-size:.66rem; color:var(--ink-3); opacity:.75}
+
+.card{
+  background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--line-2);
+  border-radius:9px; padding:.8rem .95rem; box-shadow:var(--shadow);
+  min-width:0; overflow-wrap:break-word
+}
+.card h3{margin:0; font-size:.98rem; font-weight:600; display:flex; align-items:baseline; gap:.5rem; flex-wrap:wrap}
+.kind{
+  font-family:"IBM Plex Mono",monospace; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase;
+  padding:.15rem .38rem; border-radius:4px; font-weight:600; flex:0 0 auto
+}
+.slides{
+  font-family:"IBM Plex Mono",monospace; font-size:.68rem; color:var(--ink-3);
+  background:var(--sunk); border-radius:4px; padding:.13rem .4rem; flex:0 0 auto
+}
+.card p{margin:.5rem 0 0; color:var(--ink-2); font-size:.9rem}
+.card p.lede{color:var(--ink)}
+.card ul{margin:.5rem 0 0; padding-left:1.05rem; color:var(--ink-2); font-size:.9rem}
+.card li{margin:.2rem 0}
+.card li::marker{color:var(--ink-3)}
+
+/* card variants */
+.k-demo{border-left-color:var(--accent)}
+.k-demo .kind{background:var(--accent-soft); color:var(--accent)}
+.k-hands{border-left-color:var(--hands)}
+.k-hands .kind{background:var(--hands-soft); color:var(--hands)}
+.k-gate{border-left-color:var(--gate); background:var(--gate-soft)}
+.k-gate .kind{background:var(--gate); color:var(--surface)}
+:root[data-theme="dark"] .k-gate .kind, :root:not([data-theme="light"]) .k-gate .kind{color:#2c2114}
+.k-reveal{border-left-color:var(--reveal); background:var(--reveal-soft); border-color:var(--reveal-line)}
+.k-reveal .kind{background:var(--reveal); color:#fff}
+.k-say .kind{background:var(--surface-2); color:var(--ink-3)}
+.k-break{border-left-color:var(--line-2); background:transparent; box-shadow:none; border-style:dashed}
+.k-break h3{color:var(--ink-3); font-weight:500}
+
+/* screen line */
+.screen{
+  display:flex; gap:.5rem; align-items:baseline; margin-top:.55rem;
+  font-size:.82rem; color:var(--ink-2); background:var(--sunk);
+  border-radius:6px; padding:.4rem .55rem
+}
+.screen b{
+  font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-3); flex:0 0 auto; padding-top:.09rem
+}
+
+/* prompt */
+.prompt{margin-top:.6rem; border:1px solid var(--line); border-radius:7px; overflow:hidden; background:var(--sunk)}
+.prompt-hd{
+  display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+  padding:.3rem .5rem; border-bottom:1px solid var(--line)
+}
+.prompt-hd span{
+  font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-3)
+}
+.copy{
+  font:500 .68rem/1 "IBM Plex Mono",monospace; background:var(--surface); color:var(--ink-2);
+  border:1px solid var(--line); border-radius:5px; padding:.26rem .45rem; cursor:pointer
+}
+.copy:hover{color:var(--ink); border-color:var(--line-2)}
+.copy.ok{background:var(--accent); border-color:var(--accent); color:#fff}
+pre{
+  margin:0; padding:.6rem .65rem; overflow-x:auto;
+  font-family:"IBM Plex Mono",monospace; font-size:.775rem; line-height:1.5; color:var(--ink);
+  white-space:pre-wrap; word-break:break-word
+}
+pre.cmd{color:var(--accent)}
+
+/* expect */
+.expect{
+  margin-top:.55rem; font-size:.85rem; color:var(--ink-2);
+  border-left:2px solid var(--line-2); padding-left:.6rem
+}
+.expect b{color:var(--ink); font-weight:600}
+
+/* say-this pull quote */
+.say{
+  margin:.6rem 0 0; padding:.6rem .75rem; background:var(--surface-2);
+  border-radius:7px; font-size:.9rem; color:var(--ink); font-style:italic
+}
+.say::before{content:"“"} .say::after{content:"”"}
+
+/* detail (full-script) sections */
+.more{margin-top:.55rem}
+.more>summary{
+  cursor:pointer; list-style:none; font-family:"IBM Plex Mono",monospace;
+  font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3)
+}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary::after{content:" +"}
+.more[open]>summary::after{content:" −"}
+.more .inner{margin-top:.45rem; font-size:.87rem; color:var(--ink-2)}
+body.run .more{display:none}
+
+.warn{color:var(--gate); font-weight:600}
+.crit{color:var(--reveal); font-weight:600}
+
+/* reveal table */
+table.cliff{border-collapse:collapse; margin-top:.6rem; font-size:.9rem; width:100%}
+.cliff th,.cliff td{border-bottom:1px solid var(--reveal-line); padding:.36rem .5rem; text-align:left}
+.cliff th{
+  font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--ink-3); font-weight:600
+}
+.cliff td.n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; text-align:right}
+.cliff tr:last-child td{font-weight:600}
+
+/* fallbacks */
+.fb{margin-top:2.4rem; background:var(--surface); border:1px solid var(--line); border-radius:11px; box-shadow:var(--shadow); overflow:hidden}
+.fb>summary{cursor:pointer; padding:.85rem 1.05rem; font-family:"Familjen Grotesk",sans-serif; font-weight:600; list-style:none; display:flex; gap:.6rem; align-items:center}
+.fb>summary::-webkit-details-marker{display:none}
+.fb>summary::before{content:"▸"; color:var(--ink-3); font-size:.8rem}
+.fb[open]>summary::before{content:"▾"}
+.fb .body{padding:.2rem 1.05rem 1.05rem; border-top:1px solid var(--line); overflow-x:auto}
+.fb table{min-width:26rem}
+.fb table{width:100%; border-collapse:collapse; font-size:.86rem; margin-top:.6rem}
+.fb th,.fb td{text-align:left; padding:.42rem .5rem; border-bottom:1px solid var(--line); vertical-align:top}
+.fb th{font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3)}
+.fb td:first-child{white-space:nowrap; color:var(--ink)}
+
+footer{margin-top:2.5rem; padding-top:1.1rem; border-top:1px solid var(--line); color:var(--ink-3); font-size:.8rem}
+
+@media (max-width:640px){
+  .row{grid-template-columns:3.3rem 1fr; gap:.6rem}
+  .rail{font-size:.72rem}
+  .wrap{padding:0 .85rem 4rem}
+  .hd{padding:1.2rem .85rem 1rem}
+  .bar-in{padding:.45rem .85rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<header>
+  <div class="hd">
+    <p class="eyebrow">Wednesday 26 August 2026 · 11:30–18:00 · Reykjavik</p>
+    <h1>AI in Testing — Payday</h1>
+    <p class="sub">Run of show. They arrive with zero automated UI tests and leave with a green
+      suite, the method that produced it, and one krona they will not forget.</p>
+    <div class="stats">
+      <div class="stat"><b>330</b><span>min content</span></div>
+      <div class="stat"><b>13</b><span>demos</span></div>
+      <div class="stat"><b>4</b><span>hands-on</span></div>
+      <div class="stat"><b>3</b><span>human gates</span></div>
+      <div class="stat"><b>2–5</b><span>people</span></div>
+    </div>
+    <div class="split">
+      <div><b>You</b><span>Copilot in VS Code, on the projector. Paths under <span class="mono">.github/</span>.</span></div>
+      <div><b>Them</b><span>Cursor, on their laptops. Same repo, paths under <span class="mono">.cursor/</span>.</span></div>
+      <div><b>Both</b><span>Gemini in a browser for blocks 3–4. <span class="mono">AGENTS.md</span> and <span class="mono">.agents/skills/</span> are read by either tool.</span></div>
+    </div>
+    <p class="split-note">Where a demo differs by tool, the card says whose screen it's on. The MCP key is the
+      classic trip-up: <span class="mono">mcpServers</span> in Cursor, <span class="mono">servers</span> in VS Code.</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="now mono" id="now">—</div>
+    <nav class="jump" id="jump" aria-label="Jump to block"></nav>
+    <div class="toggles">
+      <button class="tg" id="density" aria-pressed="false">Full</button>
+      <button class="tg" id="theme" aria-pressed="false" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<details class="prep" id="prep">
+  <summary>Tuesday prep — do this the day before, not the morning of</summary>
+  <div class="body" id="prepbody">
+    <div class="chk"><input type="checkbox" id="p1"><label for="p1"><b>Repo green.</b> <code class="mono">cd payday-workshop &amp;&amp; npm install &amp;&amp; npx playwright install chromium &amp;&amp; npm test</code> → must be <b>12 passed</b>.</label></div>
+    <div class="chk"><input type="checkbox" id="p2"><label for="p2"><b>App renders.</b> <code class="mono">npm run dev</code> → localhost:5173.</label></div>
+    <div class="chk"><input type="checkbox" id="p3"><label for="p3"><b>Agents load.</b> VS Code chat → agent picker shows the six from <code class="mono">.github/agents/</code>.</label></div>
+    <div class="chk"><input type="checkbox" id="p4"><label for="p4"><b>MCP connects.</b> If not: <code class="mono">npx playwright run-test-mcp-server --help</code> once, to warm the npx cache.</label></div>
+    <div class="chk"><input type="checkbox" id="p5"><label for="p5"><b class="warn">Test the hook.</b> Ask agent mode to add a test using <code class="mono">page.waitForTimeout(500)</code>. The edit must be <b>blocked</b>. This is the demo most likely to misfire — two minutes to check.</label></div>
+    <div class="chk"><input type="checkbox" id="p6"><label for="p6"><b>Bugs still live.</b> <code class="mono">npx playwright test -c pw-bugcheck.config.ts</code> → <b>9 failures</b> expected.</label></div>
+    <div class="chk"><input type="checkbox" id="p7"><label for="p7"><b>Run the Gemini prompts once</b> (12:40 and 14:05). The step everyone skips. Know roughly what comes back so you steer the debrief instead of reading it cold.</label></div>
+    <div class="chk"><input type="checkbox" id="p8"><label for="p8"><b>Deck — built for you.</b> Open <code class="mono">AI in Testing Workshop - Payday 26Aug2026 - FINAL.pptx</code> (277 slides, 143 visible). New slides at <b>4</b> agenda, <b>83</b> the app, <b>84</b> two editors, <b>131/132</b> the cliff reveal, <b>151</b> commitments. Slide <b>82</b> is zero-to-green, moved. Handout already printed. <b>Google Slides?</b> Import <span class="mono">&hellip; - GOOGLE SLIDES.pptx</span> instead and present it start to finish &mdash; its 123 slides <i>are</i> this running order, so there is nothing to skip and the numbers below simply do not apply. Custom shows do not survive the import. <b>Play <span class="mono">Slide Show &rarr; Custom Slide Show &rarr; “Payday 26 Aug - run of show”</span></b> — 101 stops, forward all day. Numbers below are this deck's.</label></div>
+    <div class="chk"><input type="checkbox" id="p9"><label for="p9"><b>Two screens ready:</b> deck on the projector, VS Code + Chrome on yours. Font size up in both.</label></div>
+  </div>
+</details>
+
+<!-- ============ BLOCK 1 ============ -->
+<section class="block" id="b1">
+  <div class="block-hd"><span class="block-time">11:30</span><h2>Welcome, and why we test</h2><span class="mins">45 min</span></div>
+  <p class="block-note">Slides 1, 2, NEW-1, 5 · 6–8, 12–14 · 15, 16, 19–21 · 23, 24, 28 · 40</p>
+
+  <div class="row"><div class="rail">11:30<em>10 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Round the table<span class="slides">1, 2, NEW-1, 5</span></h3>
+      <p class="lede">Name, what they work on, and <b>one thing they want to do on Friday that they can't do today</b>. Write the answers on the whiteboard and leave them up — you check against them at 17:45.</p>
+      <p>Then walk the agenda and leave “one very expensive krona” on screen without explaining it. Someone will ask at lunch. Don't tell them.</p>
+      <div class="expect">Expect a version of <b>“write e2e tests without it taking a week.”</b> Good — say out loud they'll have a green suite by mid-afternoon.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">11:40<em>12 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Why we test<span class="slides">6, 7, 8, 12, 13, 14</span></h3>
+      <ul>
+        <li><b>6, 7</b> — Bach: testing is <em>learning</em> about a product. Weinberg: quality is value to some person, who matters. Two lines, move on.</li>
+        <li><b>11 — load-bearing.</b> Checking confirms what you already believe (mechanisable, AI excels). Testing decides what's worth believing. The whole afternoon sits on this split.</li>
+        <li><b>13</b> — the ladder. Say plainly: they prompt in Cursor a few times a month, so they're at <b>assistance</b>. Today moves them to <b>delegation</b>. Bigger jump than the slide implies.</li>
+      </ul>
+      <p class="say">You asked for higher automated test coverage. By 16:30 you'll be able to generate more tests than you can review. That's the actual problem we're solving today.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">11:52<em>8 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Context is everything<span class="slides">15, 16, 19, 20, 21</span></h3>
+      <p class="lede">Land one point: <b>an agent without your context produces generic tests for a generic product.</b> They already write persistent instructions — what's new is doing it deliberately.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">12:00<em>8 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Critical thinking<span class="slides">23, 24, 28</span></h3>
+      <p class="lede">Slide 24's questions are the tester's questions — and <b>they're also the best prompts</b>. Slide 28: re-domain the login example live to a <b>salary run</b> — functional, usability, <b>locale</b>, security, performance. Locale replaces compatibility on purpose; you prove why after lunch.</p>
+      <p><span class="warn">Skip 24–26.</span> The age riddle is a trap current models don't fall into. Make the point in one sentence instead: plausible is not correct.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">12:08<em>7 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>The blindspot story<span class="slides">40</span></h3>
+      <p class="lede">847 AI-generated tests, all green, 12% of transactions failing by Monday. Make it theirs: <b>a payroll suite can be 100% green and still pay everybody the wrong amount.</b></p>
+      <div class="expect">This is <b>the spine of the day</b>. You pay it off at 17:06 with two rows and one krona.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOCK 2 ============ -->
+<section class="block" id="b2">
+  <div class="block-hd"><span class="block-time">12:15</span><h2>Context and prompting essentials</h2><span class="mins">25 min</span></div>
+  <p class="block-note">Slides 30, 31, 33, 34, 35–37, 38, 39, 42, 53, 55, 57, 58, 59 — brisk. They use AI monthly, so this is genuinely new; don't over-cut, don't teach from first principles either.</p>
+
+  <div class="row"><div class="rail">12:15<em>10 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Tokens and context<span class="slides">30–37</span></h3>
+      <ul>
+        <li>The context window is <b>input + output</b>, and everything competes for it.</li>
+        <li>The context is the <b>whole conversation, resent every call</b>. Nothing is remembered except what's in the window.</li>
+      </ul>
+      <p>34–36 is a three-slide build; let it run. On <b>32</b>, the model table is updated — but say out loud that any such table is stale within weeks. The durable lesson is “check the vendor docs”, not the numbers.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">12:25<em>5 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Managing the window<span class="slides">38, 39</span></h3>
+      <p class="lede">When to start fresh: vague start, messy history, repeated errors, zombie solutions reappearing. <b>New chat = fresh context.</b> Cheap — use it liberally.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">12:30<em>10 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Prompting, compressed<span class="slides">42, 53, 55, 57–59</span></h3>
+      <ul>
+        <li><b>41</b> — unnecessary context doesn't just waste tokens, it <em>actively distracts</em>.</li>
+        <li><b>52</b> — prompt anatomy: role, rules, output format, data. Point forward: <b>an agent definition is exactly this prompt, made permanent.</b></li>
+        <li><b>54</b> — a good prompt is a team asset. Commit it, review it, version it.</li>
+        <li><b>56</b> — ask the model to improve your prompt.</li>
+      </ul>
+      <p><span class="warn">Cut 42–49</span> (CoT/CoVe/x-shot — slide 50 is Visual FoxPro, wrong century for this room) <span class="warn">and 50–51</span> (your own notes say “no experience with this” on both).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOCK 3 ============ -->
+<section class="block" id="b3">
+  <div class="block-hd"><span class="block-time">12:40</span><h2>Hands-on 1 — requirement critique</h2><span class="mins">20 min</span></div>
+  <p class="block-note">Slides 62–72 · <b>Gemini in the browser.</b> No repo, no terminal. The cheapest bug is the one never specified into existence.</p>
+
+  <div class="row"><div class="rail">12:40<em>8 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Requirement critique, live<span class="slides">62–69</span></h3>
+      <div class="screen"><b>Screen</b><span>Gemini in a browser tab. Slide 63 up first — the lifecycle spine, exactly what they asked for. Ask the question printed on it.</span></div>
+      <p>Slides 66–69 already show a worked critique. Run it <b>live</b> instead, with payroll requirements, so they see it happen.</p>
+      <div class="prompt"><div class="prompt-hd"><span>Paste into Gemini</span><button class="copy">Copy</button></div><pre>You are a senior test analyst reviewing requirements for an Icelandic payroll and
+accounting product before anyone builds them.
+
+For each requirement below: quote the exact words that cannot be verified as written,
+list the rules that are missing, name the unstated assumptions, and give me the numbered
+questions a human must answer. Then rewrite each as numbered Given/When/Then acceptance
+criteria.
+
+Do not answer your own questions. Do not soften the critique.
+
+1. As a payroll administrator I want to run payroll for all employees on a specific date
+   so that everyone gets paid on time.
+2. Bulk payslip download. The user can download the payslips for a salary run as a PDF.
+3. As a user I want the app to be fast and easy to use so that I enjoy using it.</pre></div>
+      <div class="expect"><b>Expect:</b> “on a specific date” flagged for time zone and time of day; the plural/singular contradiction in #2 caught; #3 judged not actionable and rewritten. <b>If it misses #2, say so</b> — an honest miss teaches more than a polished hit. Slides 67–69 are your backup.</div>
+      <p class="say">These are exactly the questions a senior tester asks. It asked them in four seconds, before a line of code existed, with no access to your codebase.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">12:48<em>12 min</em></div>
+    <div class="card k-hands"><h3><span class="kind">Hands-on</span>Their own requirement<span class="slides">70, 71, 72</span></h3>
+      <p class="lede">Each person takes a <b>real</b> requirement from Payday's backlog — a ticket, a Slack thread, a half-written story — and runs the same prompt.</p>
+      <p><b>Deliverable:</b> the three best questions the model asked that nobody had thought of, into the channel.</p>
+      <div class="screen"><b>Watch for</b><span>Someone tidying their requirement before pasting it. Call it out warmly — a cleaned-up requirement teaches nothing, and in real life nobody cleans it up for you.</span></div>
+      <div class="expect"><b>Debrief (last 4 min):</b> the interesting comparison isn't who got the best critique — it's whether any two people got the <em>same</em> critique. They won't. That variance is the argument for <b>storing</b> the prompt, which is the toolbox block.</div>
+      <details class="more"><summary>Slide 71 — check the fix landed</summary><div class="inner">It used to read “Done in Gemini and Copilot (as these tools are known and everyone has access)”. Payday has <b>Cursor</b>. Add the line out loud: your screen is Copilot, their screens are Cursor, and the repo is configured for both on purpose.</div></details>
+    </div>
+  </div>
+</section>
+
+<div class="row" style="margin-top:1.6rem"><div class="rail">13:00<em>60 min</em></div>
+  <div class="card k-break"><h3>Lunch</h3>
+    <p>Don't shorten it — the afternoon is dense and the reveal needs people awake.</p>
+    <p class="say">After lunch, you get a working e2e suite. From nothing. In under an hour.</p>
+  </div>
+</div>
+
+<!-- ============ BLOCK 4 ============ -->
+<section class="block" id="b4">
+  <div class="block-hd"><span class="block-time">14:00</span><h2>Planning and test data</h2><span class="mins">30 min</span></div>
+  <p class="block-note">Slides 74, 75, 76–80 · Gemini, plus a look at Cursor's Plan Mode</p>
+
+  <div class="row"><div class="rail">14:00<em>5 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Plans are cheap<span class="slides">74, 75</span></h3>
+      <p class="lede"><b>73 already says Cursor Plan Mode</b> — one of the few slides already correct for this audience. Review the plan, not the diff.</p>
+      <p><b>74:</b> re-domain live — not a school grading engine but a <b>salary-run change</b>: 400 companies affected, bank + RSK integrations, banded tax formulas, historical payslips that must stay correct.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">14:05<em>10 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Test data is a context decision<span class="slides">76, 77</span></h3>
+      <div class="screen"><b>Screen</b><span>Gemini. Two prompts, same request, back to back. This is the demo that makes the domain point land.</span></div>
+      <div class="prompt"><div class="prompt-hd"><span>First — generic</span><button class="copy">Copy</button></div><pre>Generate 12 test values for a "monthly gross salary" input field in a payroll app.
+Output a table of value, category, expected behaviour.</pre></div>
+      <div class="expect">0, negative, very large, decimal, empty, non-numeric. Perfectly decent, <b>completely generic</b>.</div>
+      <div class="prompt"><div class="prompt-hd"><span>Then — domain-loaded</span><button class="copy">Copy</button></div><pre>Same request, but this is an ICELANDIC payroll product.
+
+Salaries are in ISK, which has no minor unit in practice. Income tax is banded, and the
+band threshold applies to gross minus a 4% pension contribution. Employee names contain
+Icelandic characters. The UI formats numbers as is-IS.
+
+Now give me 12 values, and for each one tell me what class of defect it is designed to
+find. Include values that specifically probe rounding and band boundaries.</pre></div>
+      <div class="expect"><b>Expect:</b> amounts exactly on a band threshold and one krona either side; nets landing on a fraction; ISK formatting cases. <b class="crit">If it produces “one krona either side of the threshold”, stop and point at it</b> — that is the technique that finds the worst defect in this app, and you prove it at 17:06.</div>
+      <p class="say">Same model, same question. The difference is the context. That is the whole job.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">14:15<em>15 min</em></div>
+    <div class="card k-hands"><h3><span class="kind">Hands-on</span>Icelandic edge cases<span class="slides">78, 79, 80</span></h3>
+      <p class="lede">In pairs. Pick one input from Payday's real product — kennitala field, invoice amount, employee name, VSK rate, date range. Generate an edge-case set with the domain-loaded style, then push back:</p>
+      <div class="prompt"><div class="prompt-hd"><span>The push-back</span><button class="copy">Copy</button></div><pre>Which three of these values are most likely to find a real defect in a product that has
+never been tested with them, and why? Be specific about the failure mechanism, not just
+the input.</pre></div>
+      <div class="expect"><b>Debrief:</b> ask <em>which of these would your current tests have caught?</em> For a product with zero e2e coverage the honest answer is none — not a criticism, it's the case for the next block.</div>
+      <details class="more"><summary>Optional, if ahead — the vision exercise</summary><div class="inner">Screenshot a real Payday screen into Gemini and ask what to test. Most teams never think to give a model a picture, and it works on the legacy screens nobody wants to touch. <b>First thing to cut if behind.</b></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOCK 5 ============ -->
+<section class="block" id="b5">
+  <div class="block-hd"><span class="block-time">14:30</span><h2>From zero to a green suite</h2><span class="mins">55 min</span></div>
+  <p class="block-note">Slides 81, <b>82</b> (moved here), NEW-2, NEW-3, 85 · <b>Cursor</b> on their screens, Copilot/VS Code on yours. <b class="crit">This is the block they signed up for. Protect its time.</b></p>
+
+  <div class="row"><div class="rail">14:30<em>5 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>Tour the target<span class="slides">NEW-2</span></h3>
+      <div class="screen"><b>Screen</b><span>The app at localhost:5173. Add <span class="mono">Anna Karlsson / 120375-2029 / 750000</span>. Mark her paid. Show the totals.</span></div>
+      <p>Then show the whole app is three files: <span class="mono">index.html</span>, <span class="mono">main.js</span>, <span class="mono">style.css</span>.</p>
+      <p class="say">This app is deliberately trivial so every demo takes a minute. Every technique scales to your real product. And it has bugs in it on purpose — some of you will find them before I show you.</p>
+      <div class="expect"><b>Don't say how many.</b> Ten are planted; nine are verified reproducible.</div>
+      <div class="expect" style="margin-top:.5rem"><b>Your icebreaker — 90 seconds, do not skip it.</b> Zoom the header: <span class="mono">August 2026</span> and <span class="mono">Pay date 9/4/2026</span>. Read it out loud, then ask <b>“when does that money arrive?”</b> and wait. The rule is the 4th of the month after the period, so it is <b>4 September</b> — <span class="mono">4.9.2026</span> in <span class="mono">is-IS</span>. The app hard-codes <span class="mono">en-US</span>, so an Icelandic user reads <b>9 April</b>. Five months wrong, nothing on screen looks broken, and it hides for the first twelve days of every month. <b>If nobody answers, answer it wrong yourself</b> — <i>“that's the ninth of April, right?”</i> Full version in the extended playbook.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">14:35<em>12 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>The context experiment<span class="slides">NEW-3</span></h3>
+      <div class="screen"><b>Screen</b><span>Your VS Code, on the projector. The most persuasive demo of the day, and it costs nothing.</span></div>
+      <div class="prompt"><div class="prompt-hd"><span>1 — you, on Copilot: hide the instructions</span><button class="copy">Copy</button></div><pre class="cmd">mv AGENTS.md /tmp/AGENTS.md
+mv .github/copilot-instructions.md /tmp/</pre></div>
+      <div class="prompt"><div class="prompt-hd"><span>2 — new chat, ask for a test</span><button class="copy">Copy</button></div><pre>Write a Playwright test that verifies removing an employee from the salary run works.</pre></div>
+      <div class="expect">Plausible and generic. Text or CSS-chain selectors, probably no localStorage isolation, possibly a <span class="mono">waitForTimeout</span>. <b>It will look fine to anyone who doesn't already know the conventions — that's the trap.</b></div>
+      <div class="prompt"><div class="prompt-hd"><span>3 — restore, new chat, identical prompt</span><button class="copy">Copy</button></div><pre class="cmd">mv /tmp/AGENTS.md . && mv /tmp/copilot-instructions.md .github/</pre></div>
+      <details class="more"><summary>If you want them to run it too — the Cursor commands</summary><div class="inner">Their dialect is <span class="mono">.cursor/rules</span>, not <span class="mono">.github/</span>:
+<pre class="cmd" style="margin-top:.4rem">mv AGENTS.md /tmp/AGENTS.md &amp;&amp; mv .cursor/rules /tmp/cursor-rules
+# restore
+mv /tmp/AGENTS.md . &amp;&amp; mv /tmp/cursor-rules .cursor/rules</pre>
+Honestly it's better as <b>your</b> demo — the diff reads best on one big screen, and it costs four minutes of their time to reproduce something they'll believe anyway.</div></details>
+      <div class="expect"><b>Expect:</b> <span class="mono">should X when Y</span> naming, <span class="mono">beforeEach</span> clearing localStorage, <span class="mono">getByTestId</span>, auto-waiting assertions. <b>Put the two side by side and let the room read.</b> That diff is the entire argument for context engineering.</div>
+      <p class="say">You already write persistent instructions — you said so on the sign-up. The question isn't whether to write them. It's whether they live in your head, in a chat you'll lose, or in a file your whole team gets for free on clone.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">14:47<em>8 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Playwright from nothing<span class="slides">82</span></h3>
+      <div class="screen"><b>Screen</b><span>Terminal, then Cursor agent mode. <b>Slide 82 was hidden in the original deck</b> — its notes hold the full scaffold prompt. This is Payday's headline ask.</span></div>
+      <div class="prompt"><div class="prompt-hd"><span>Scaffold</span><button class="copy">Copy</button></div><pre class="cmd">npm init playwright@latest -- --quiet --lang=ts --browser=chromium --no-examples --gha</pre></div>
+      <p>Walk what it made: <span class="mono">playwright.config.ts</span>, <span class="mono">tests/</span>, a GitHub Actions workflow. Point at <span class="mono">webServer</span> — Playwright starts the dev server itself, so <span class="mono">npm test</span> is the only command anyone must remember.</p>
+      <div class="prompt"><div class="prompt-hd"><span>Then, in agent mode</span><button class="copy">Copy</button></div><pre>Read playwright.config.ts and AGENTS.md. Set testIdAttribute to data-testid, add a json
+reporter that writes results.json in CI, and explain in two sentences why fullyParallel
+is safe for this app but might not be for a payroll product with a shared database.</pre></div>
+      <div class="expect">The config edits plus a genuinely useful caveat about shared state. <b>That caveat is worth more to them than the edit.</b></div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">14:55<em>25 min</em></div>
+    <div class="card k-hands"><h3><span class="kind">Hands-on</span>Your first real suite — <b>the deliverable of the day</b></h3>
+      <div class="prompt"><div class="prompt-hd"><span>Each participant, in Cursor agent mode</span><button class="copy">Copy</button></div><pre>Read AGENTS.md, index.html and main.js.
+
+Write a Playwright suite covering employee validation for the salary-run app: what the
+form accepts, what it rejects, and what it shows the user in each case.
+
+Follow every convention in AGENTS.md. Use the test data in
+fixtures/icelandic-test-data.json where it fits. One test per behaviour.
+
+Before you write anything, list the behaviours you found in main.js and wait for me to
+confirm the list.</pre></div>
+      <p><b>Make them use that last line.</b> That pause is the human gate, introduced quietly here so it's a habit before it's a diagram at 16:35. Then <span class="mono">npm test</span>.</p>
+      <div class="screen"><b>Circulate</b><span>Four things to watch for →</span></div>
+      <ul>
+        <li><b class="crit">Agent asserts current behaviour instead of correct behaviour.</b> If it writes <em>“should accept the kennitala when the check digit is wrong”</em> because that's what the app does — <b>stop the room.</b> Ask: is this test protecting you, or documenting the bug?</li>
+        <li><b>Green suite, weak assertions.</b> Have them break <span class="mono">main.js</span> deliberately. If it stays green, the test is theatre.</li>
+        <li><b>Someone finds a bug.</b> Have them write it down and <em>not</em> fix it — fixing it now costs you the 17:06 reveal.</li>
+        <li><b>Someone's agent tries <span class="mono">waitForTimeout</span>.</b> The hook blocks it. Let them discover this themselves — better demo than yours.</li>
+      </ul>
+      <div class="expect"><b>Debrief (last 7 min).</b> Count the tests in the room. Then ask: <b>“how many of these would you bet your next payroll run on?”</b> Let it be uncomfortable. Then: that gap is what the rest of today is about.</div>
+    </div>
+  </div>
+</section>
+
+<div class="row" style="margin-top:1.6rem"><div class="rail">15:25<em>10 min</em></div>
+  <div class="card k-break"><h3>Break</h3></div>
+</div>
+
+<!-- ============ BLOCK 6 ============ -->
+<section class="block" id="b6">
+  <div class="block-hd"><span class="block-time">15:35</span><h2>The customization toolbox</h2><span class="mins">60 min</span></div>
+  <p class="block-note">Slides 86–108 · slide 105 → <b>printed handout</b>, not a slide. Stop retyping your good prompts.</p>
+
+  <div class="row"><div class="rail">15:35<em>8 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>The map, and the two dialects<span class="slides">86, NEW-3</span></h3>
+      <ul>
+        <li><b>AGENTS.md</b> and <b>.agents/skills/</b> are read by <b>both</b> tools — write shared knowledge once.</li>
+        <li><b>Subagents are not shared.</b> Cursor draws the boundary with <span class="mono">readonly:</span>, Copilot with <span class="mono">tools:</span> — one file can't enforce both. Hence <span class="mono">agents/</span> as source, <span class="mono">agents/_generate.py</span> writing both dialects.</li>
+        <li><b>The MCP key differs:</b> <span class="mono">mcpServers</span> in Cursor, <span class="mono">servers</span> in VS Code. Copying the file across without changing the key is <b>the most common setup failure in this space</b>. Show both files open side by side.</li>
+      </ul>
+      <p class="say">Repeated prompt → command. Reference knowledge → skill. Persona plus tool boundary plus its own context → subagent. Non-negotiable rule → hook. Always-true convention → the always-on file. Missing capability → MCP server.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">15:43<em>7 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Stored prompts<span class="slides">93</span></h3>
+      <div class="screen"><b>Screen</b><span>Open <span class="mono">.agents/skills/analyze-coverage/SKILL.md</span> — a markdown file with two lines of frontmatter. That's the whole mechanism. Say so; people expect something harder.</span></div>
+      <div class="prompt"><div class="prompt-hd"><span>Run it</span><button class="copy">Copy</button></div><pre>/analyze-coverage</pre></div>
+      <div class="expect">A behaviour/coverage matrix built by reading <span class="mono">main.js</span>, gaps ranked by risk, three suggested next tests. It judges coverage against the <b>source</b>, not the test names — because that instruction is in the file, so it behaves that way every time, for everyone.</div>
+      <div class="prompt"><div class="prompt-hd"><span>Then</span><button class="copy">Copy</button></div><pre>/create-test-plan pro rata salary for an employee who joined partway through the month</pre></div>
+      <div class="expect">A risk-prioritised plan for a feature that doesn't exist, saved to <span class="mono">specs/</span>. <b>A plan is cheaper than code, and reviewable.</b></div>
+      <details class="more"><summary>If <span class="mono">/</span> shows nothing in their Cursor</summary><div class="inner">Cursor folded slash commands into Skills. The repo ships all three dialects — <span class="mono">.agents/skills/</span>, <span class="mono">.cursor/commands/</span>, <span class="mono">.github/prompts/</span>. Teach whichever appears on their machine. Check Tuesday.</div></details>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">15:50<em>7 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Skills, and progressive disclosure<span class="slides">94–97</span></h3>
+      <div class="screen"><b>Screen</b><span><span class="mono">.agents/skills/playwright-e2e/SKILL.md</span> — long, deliberately. Only the <b>description</b> sits in context permanently; the body loads when relevant. That's why a skill can be long while the always-on file must be short.</span></div>
+      <div class="prompt"><div class="prompt-hd"><span>Trigger it</span><button class="copy">Copy</button></div><pre>Refactor tests/salary-run.spec.ts to use a page object.</pre></div>
+      <div class="expect">The <span class="mono">SalaryRunPage</span> pattern <b>from the skill</b> — including <span class="mono">netFor()</span> returning a formatted string, not a number. If it invents its own, the skill didn't trigger — say so, and check the description. Triggering is a function of the description.</div>
+      <p>Then show <span class="mono">icelandic-test-data/SKILL.md</span>: this is where “our kennitalas have a mod-11 check digit” lives permanently, so nobody explains it to an AI — or a new hire — ever again.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">15:57<em>8 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Subagents and tool boundaries<span class="slides">98–102</span></h3>
+      <div class="screen"><b>Screen</b><span><span class="mono">agents/bug-hunter.md</span> — the <b>source</b>, not the generated file.</span></div>
+      <ul>
+        <li>The <b>description</b> drives automatic delegation — write it as “Use this agent when…”.</li>
+        <li><b>Tools are a capability boundary.</b> bug-hunter is read-only: it <em>cannot</em> helpfully fix what it finds. Deliberate — an agent that finds and fixes in one move takes away your decision about whether it was a bug at all.</li>
+        <li>Subagents get their own context window and <b>cannot call each other</b>. The main agent orchestrates. That's why the pipeline has human gates rather than being one long chain.</li>
+      </ul>
+      <div class="prompt"><div class="prompt-hd"><span>Run it</span><button class="copy">Copy</button></div><pre>Use the bug-hunter agent on main.js.</pre></div>
+      <div class="expect"><b>Expect (~3 min):</b> severity-ranked findings. Very likely the <span class="mono">innerHTML</span> name rendering and the unvalidated <span class="mono">loadEmployees</span>. <b class="crit">It may find the tax cliff — if it does, do NOT confirm it.</b> Say “interesting, hold that thought”, write it face-down on the whiteboard, and save it for 17:06.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">16:05<em>7 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Hooks — advice versus law<span class="slides">—</span></h3>
+      <div class="screen"><b>Your screen</b><span><span class="mono">.github/hooks/block-waitfortimeout.json</span> and the <span class="mono">.sh</span> beside it. <b>The best live demo of the block</b> — and it's on the well-documented path, so it should behave.</span></div>
+      <p>One breath of explanation: on a <span class="mono">PreToolUse</span> event the script reads the pending tool call from stdin; if it's a write to a <span class="mono">.spec.ts</span> containing <span class="mono">waitForTimeout</span>, it returns <span class="mono">permissionDecision: "deny"</span> — the write is blocked and the reason goes back to the agent.</p>
+      <div class="prompt"><div class="prompt-hd"><span>Live-fire it</span><button class="copy">Copy</button></div><pre>Add a test to tests/salary-run.spec.ts that uses page.waitForTimeout(500) to wait before
+asserting the row count.</pre></div>
+      <div class="expect"><b>Expect:</b> the edit is blocked, the agent reads the denial, and rewrites with an auto-waiting assertion — <b>without you saying anything</b>. That self-correction is the demo. A deterministic guardrail beat a probabilistic instruction.</div>
+      <p><b>Then show them their side:</b> <span class="mono">.cursor/hooks.json</span> + <span class="mono">.cursor/hooks/block-waitfortimeout.sh</span>. Same rule, same repo, different spelling — <span class="mono">preToolUse</span> with <span class="mono">matcher: "Write"</span>, blocking with <span class="mono">{"permission":"deny"}</span> or exit 2.</p>
+      <p><span class="warn">The uncertainty is on their machines, not yours.</span> Cursor documents <span class="mono">preToolUse</span> with <span class="mono">matcher: "Write"</span> but shows no example of blocking a <em>file edit</em> specifically. The repo ships an <span class="mono">afterFileEdit</span> warning as fallback, so if a participant's Cursor doesn't block, the warning fires instead and you get a better lesson than you planned: <b>detect versus prevent</b>, and the fact that two tools drawing the same boundary can enforce it to different depths. Worth checking on one of their laptops in the first break.</p>
+      <p class="say">What rule does your team break most often — and could it be a hook instead of a code-review comment?</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">16:12<em>18 min</em></div>
+    <div class="card k-hands"><h3><span class="kind">Hands-on</span>Build a subagent for your real job</h3>
+      <p class="lede">Each person writes one agent in <span class="mono">agents/</span>, then runs <span class="mono">agents/_generate.py</span>. Menu:</p>
+      <ul>
+        <li><b>risk-reviewer</b> — reads a git diff, outputs area touched → tests to run → regression risk. <b>Recommend this one</b>; it comes back at 17:42.</li>
+        <li><b>kennitala-auditor</b> — finds every place a kennitala is handled and flags the ones not using the shared validator.</li>
+        <li><b>locale-checker</b> — hunts <span class="mono">localeCompare</span> without a locale, wrong <span class="mono">toLocaleDateString</span>, hard-coded English months.</li>
+        <li><b>rounding-auditor</b> — finds every place money is rounded and asks whether it happens more than once on a path.</li>
+      </ul>
+      <div class="prompt"><div class="prompt-hd"><span>The meta-move — have the agent write the agent</span><button class="copy">Copy</button></div><pre>Create agents/risk-reviewer.md following the structure of agents/bug-hunter.md, then
+run agents/_generate.py. It reads a git diff and outputs a risk table mapping each
+touched area to the tests that should run and the regression risk. Give it read-only
+tools and explain why each one is needed.</pre></div>
+      <div class="expect"><b>Debrief (last 5 min).</b> Two volunteers on screen. Ask each: <b>“what can your agent NOT do, and is that on purpose?”</b> Anyone who gave their read-only reviewer write access gets a friendly interrogation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOCK 7 ============ -->
+<section class="block" id="b7">
+  <div class="block-hd"><span class="block-time">16:35</span><h2>Playwright agents, the pipeline, and the reveal</h2><span class="mins">45 min</span></div>
+  <p class="block-note">Slides 113–118, 109–111, 128–130, NEW-4a/4b (131, 132) · Cursor + MCP</p>
+
+  <div class="row"><div class="rail">16:35<em>5 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>The pipeline, and why the gates are load-bearing<span class="slides">128–130</span></h3>
+      <div class="prompt"><div class="prompt-hd"><span>The shape</span><button class="copy">Copy</button></div><pre>requirement-critic → [GATE] → test-planner → [GATE]
+      → test-generator → [GATE] → test-reviewer → sign-off
+                              ↘ fixes loop back to generator
+test-healer: on call whenever the suite breaks</pre></div>
+      <p class="say">A vague requirement becomes a wrong plan becomes fifty wrong tests. Each gate is where you stop an error compounding.</p>
+      <div class="expect"><b>Ask the room now, and remember the answers:</b> which gate would you be most tempted to skip? You come back to this after the reveal.</div>
+      <p><span class="warn">Slides 115–117 teach a deprecated format</span> — they link to <span class="mono">.chatmode.md</span> files. Show <span class="mono">npx playwright init-agents --loop=copilot</span> instead. Verified on Playwright 1.62.1, undocumented on playwright.dev — run it yourself first.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">16:40<em>20 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>The full pipeline on “Clear paid” — the centrepiece<span class="slides">109–111</span></h3>
+      <div class="prompt"><div class="prompt-hd"><span>Paste as-is, flaws included</span><button class="copy">Copy</button></div><pre>Add a "Clear paid" button that removes all employees who have been paid. It should be
+quick and the user shouldn't lose anything important.</pre></div>
+
+      <p style="margin-top:.75rem"><b>Stage 1 — critique (4 min)</b></p>
+      <div class="prompt"><div class="prompt-hd"><span>Run</span><button class="copy">Copy</button></div><pre>Use the requirement-critic agent on this requirement: &lt;paste&gt;</pre></div>
+      <div class="expect">“quick” and “important” flagged untestable; open questions on confirmation, undo, visibility when nobody is paid; <b>and the one that matters — does “removes” mean removed from this run, or deleted from the employee list?</b></div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">—</div>
+    <div class="card k-gate"><h3><span class="kind">Gate 1</span>Do this on camera, slowly</h3>
+      <p class="lede">Answer the open questions out loud and edit the criteria in the chat as you go. <b>Dwell on removes-versus-deletes.</b></p>
+      <p class="say">In a payroll product these are completely different features. One tidies a screen. The other destroys a record of a payment that was actually made. The requirement doesn't say. The code can't tell me. No amount of model capability answers this — someone at Payday has to decide, and that someone is in this room.</p>
+      <p>Then ask: does the requirement say anything about the same person appearing twice? <b>It doesn't.</b> That's a real planted bug, found by critique, before a line of code. Note it on the whiteboard.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">—<em>5 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Stage 2</span>Plan</h3>
+      <div class="prompt"><div class="prompt-hd"><span>Run</span><button class="copy">Copy</button></div><pre>Invoke the test-planner agent with the approved acceptance criteria above. Explore the
+running app first, then save the plan to specs/.</pre></div>
+      <div class="expect">It drives a <b>real browser</b> through the Playwright MCP server and plans against the <em>criteria</em>, not the implementation. <b>Watch the browser move on screen</b> — for a team with zero e2e experience, this is the moment the technology stops being abstract.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">—</div>
+    <div class="card k-gate"><h3><span class="kind">Gate 2</span>Delete a scenario, on camera</h3>
+      <p class="lede">Open the plan. <b>Delete one low-value scenario and say why.</b> Then check its “Suspected defects” section — the planner records anything odd it noticed without fixing it.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">—<em>6 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Stage 3</span>Build the feature, then generate</h3>
+      <p>Let the main agent implement the feature first (3 min — it's a small app), then:</p>
+      <div class="prompt"><div class="prompt-hd"><span>Run</span><button class="copy">Copy</button></div><pre>Invoke the test-generator agent with the approved plan in specs/. One test per scenario.</pre></div>
+      <div class="expect">It executes each scenario live in the browser, generates locators from the real DOM, and writes specs from what it observed. <b>Point at this: the selectors come from reality, not imagination.</b> That's the difference between an e2e suite that survives a week and one that doesn't.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">—</div>
+    <div class="card k-gate"><h3><span class="kind">Gate 3</span>Read the assertions aloud</h3>
+      <p class="lede"><span class="mono">npm test</span>. Then open one generated file and read the assertions out loud. Ask: <b>if this feature broke tomorrow, would this test fail?</b></p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">—<em>5 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Stage 4</span>Review</h3>
+      <div class="prompt"><div class="prompt-hd"><span>Run</span><button class="copy">Copy</button></div><pre>Invoke the test-reviewer agent on the generated tests, with the acceptance criteria and
+the plan.</pre></div>
+      <div class="expect"><b>Expect</b> CHANGES REQUIRED with a concrete fix list — typically a missing persistence-after-clear check, or a count assertion doing the work of a value assertion. If it returns APPROVED, read the assertions yourself and see if you agree — <b>a reviewer that never objects is not a gate</b>.</div>
+      <p><b>Debrief:</b> critique → criteria → plan → feature → tests → review in about 20 minutes. Ask what their current cycle time is. Then remind them of their own answer about which gate they'd skip.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">17:00<em>6 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Exploratory testing with a real browser<span class="slides">113, 114</span></h3>
+      <p class="block-note" style="margin:0 0 .4rem"><span class="warn">Cut this first if you're behind.</span></p>
+      <div class="prompt"><div class="prompt-hd"><span>The charter</span><button class="copy">Copy</button></div><pre>Open the app and explore it like a hostile payroll administrator for five minutes.
+
+Try to break adding employees, marking them paid, and clearing paid. Try Icelandic
+characters in the name. Try salaries at and around the tax band threshold. Try the same
+person twice. Try reloading mid-action.
+
+Report as a session log: what you tried, what you observed, and a severity for anything
+surprising. Do not fix anything.</pre></div>
+      <div class="expect">A charter-style session report. Commonly surfaces the rounding mismatch, the missing duplicate check, and focus loss after Remove. <b>Frame it honestly:</b> session-based exploratory testing with an inexhaustibly patient junior. It doesn't replace human exploration — it feeds it. Then ask which findings would have been <em>cheaper without</em> the AI. Some will be.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">17:06<em>14 min</em></div>
+    <div class="card k-reveal"><h3><span class="kind">Reveal</span>The tax cliff<span class="slides">NEW-4</span></h3>
+      <p class="lede"><b>The most important fourteen minutes of the day. Don't rush it, don't let it run over.</b></p>
+      <p>Set it up first. Point at the suite on screen — by now the room has thirty-plus green tests, several written by them.</p>
+      <p class="say">You asked for higher automated test coverage. You have it. Let me show you what it does not tell you.</p>
+      <p>Add two employees, side by side, on the projector:</p>
+      <table class="cliff">
+        <tr><th>Name</th><th style="text-align:right">Monthly gross</th><th style="text-align:right">Net pay</th></tr>
+        <tr><td>Below</td><td class="n">468.749 kr.</td><td class="n">376.249 kr.</td></tr>
+        <tr><td>At limit</td><td class="n">468.750 kr.</td><td class="n">347.000 kr.</td></tr>
+      </table>
+      <p style="margin-top:.6rem"><b>Let the room read. Wait.</b> Someone will get there.</p>
+      <p class="say">One krona more gross. 29.249 kronur less in their pocket.</p>
+      <div class="prompt"><div class="prompt-hd"><span>The mechanism</span><button class="copy">Copy</button></div><pre>if (taxableBase >= BAND_1_LIMIT) {
+  tax = taxableBase * BAND_2_RATE - PERSONAL_ALLOWANCE;   // the WHOLE base, not the margin
+}</pre></div>
+      <p><b>Then the three points — the payload of the whole workshop:</b></p>
+      <ul>
+        <li><b>Every green test in the room passed.</b> None of them chose 468.749 and 468.750. Round numbers all behave perfectly. <b>Coverage was never the thing protecting you.</b></li>
+        <li><b>The technique that finds it is boundary analysis</b> — both sides of a threshold, one unit apart. Nobody does that by hand for every threshold in a real payroll product. An agent does it for free, <em>if you tell it there is a threshold</em>. That's the 14:05 demo, now with a number attached.</li>
+        <li><b>The AI can find it, and could not have decided it mattered.</b> Nothing in the code says a tax cliff is wrong. That's a rule about the world, held by people who understand payroll. It belongs in <span class="mono">AGENTS.md</span> — and once written down, every future agent and every future hire gets it.</li>
+      </ul>
+      <div class="prompt"><div class="prompt-hd"><span>Now prove point 2, live</span><button class="copy">Copy</button></div><pre>Read calculatePayslip in main.js. Tax is supposed to be marginal — a higher band should
+apply only to income above the threshold. Generate boundary tests that would detect a
+cliff, using values one krona either side of every threshold you find.</pre></div>
+      <div class="expect">It finds <span class="mono">BAND_1_LIMIT</span>, works back through the 4% pension to get 468.750, and generates the failing test. <b>Watch it land.</b></div>
+      <p class="say">It took one sentence of domain knowledge to find a critical money bug. That sentence is now line 34 of AGENTS.md, and it's there for everyone who ever clones this repo. That is what “higher automated test coverage” should have meant.</p>
+    </div>
+  </div>
+</section>
+
+<div class="row" style="margin-top:1.6rem"><div class="rail">17:20<em>10 min</em></div>
+  <div class="card k-break"><h3>Break</h3></div>
+</div>
+
+<!-- ============ BLOCK 8 ============ -->
+<section class="block" id="b8">
+  <div class="block-hd"><span class="block-time">17:30</span><h2>Healing, reporting, and running it without you</h2><span class="mins">15 min</span></div>
+  <p class="block-note">Slides 117, 119, 121, 124 · compressed on purpose — keep the sabotage, sketch the rest</p>
+
+  <div class="row"><div class="rail">17:30<em>8 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Sabotage and heal<span class="slides">117</span></h3>
+      <p class="lede">Everyone breaks the app: in <span class="mono">index.html</span>, rename <span class="mono">id="name-input"</span> to <span class="mono">id="employee-name"</span>. Then <span class="mono">npm test</span> — watch it burn.</p>
+      <div class="prompt"><div class="prompt-hd"><span>Then</span><button class="copy">Copy</button></div><pre>Use the test-healer agent to fix the failing tests.</pre></div>
+      <div class="expect">It runs the suite, inspects the changed DOM, regenerates locators against reality, patches, re-runs to green.</div>
+      <p><b>Then stop, while it's fresh, and name the trap:</b></p>
+      <p class="say">A failing test means one of two things. Either the test is stale and the app changed on purpose — heal it. Or the app is broken and the test just did its job — and healing it deletes the only warning anyone was going to get.</p>
+      <p>Here, healing was correct: the id changed deliberately. But if the healer “fixes” a test around the tax cliff, your suite is now <b>green and lying</b>. That's why the agent classifies every failure before touching it, leaves anything it can't classify as <span class="mono">test.fixme()</span>, and why <b>healed diffs go to a human, never straight to merge</b>.</p>
+      <div class="expect">Ask them: <b>what would it take for you to trust an automated healer on your product?</b> The answers are their own governance model, arrived at by themselves.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">17:38<em>4 min</em></div>
+    <div class="card k-demo"><h3><span class="kind">Demo</span>Raw results into decisions<span class="slides">119, 121, 124</span></h3>
+      <div class="prompt"><div class="prompt-hd"><span>Generate</span><button class="copy">Copy</button></div><pre class="cmd">npx playwright test --reporter=json &gt; results.json</pre></div>
+      <div class="prompt"><div class="prompt-hd"><span>Then hand it over</span><button class="copy">Copy</button></div><pre>Read results.json. Write a stakeholder summary for a product manager: overall health,
+what is covered, the notable gaps, and one recommendation. No jargon. 150 words maximum.</pre></div>
+      <div class="expect">The report a PM actually reads. <b>Raw pass/fail → decision-ready information is a testing deliverable, and it just became free.</b> Same pattern for defect triage: backlog export in, triage and first-line root cause out. It proposes; a human disposes.</div>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">17:42<em>3 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>CI, on the whiteboard</h3>
+      <p class="lede">Don't build it live — network and secrets eat workshops. Sketch it:</p>
+      <ul>
+        <li><span class="mono">.github/workflows/playwright.yml</span> is already in the repo. Every PR runs the suite. <b>For a team with zero e2e coverage this is the actual win</b> — tests that run whether anyone remembers or not.</li>
+        <li>Their <b>risk-reviewer</b> from 16:12, run on every PR diff, posting the risk table as a comment.</li>
+        <li>The guardrails they built today <b>follow the agent into CI, where nobody is watching.</b> That's the argument for files over habits.</li>
+      </ul>
+      <div class="expect">Then the discussion that matters more than the YAML: <b>what must be true before you trust this?</b> Least-privilege tools, a pinned model, a human owning the merge button, and a plan for the day it's confidently wrong.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRAP ============ -->
+<section class="block" id="b9">
+  <div class="block-hd"><span class="block-time">17:45</span><h2>Wrap-up</h2><span class="mins">15 min</span></div>
+  <p class="block-note">Slides 125–127, 149, 150, NEW-5, 136</p>
+
+  <div class="row"><div class="rail">17:45<em>6 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>What we saw today, in their own artifacts<span class="slides">125–127, 149, 150</span></h3>
+      <p class="lede">Not a generic pitfalls slide — point at things that happened in this room:</p>
+      <ul>
+        <li><b>Confident garbage.</b> The no-context test at 14:35 looked fine and was worse.</li>
+        <li><b>Coverage is not safety.</b> Thirty-plus green tests, and a one-krona cliff costing 29.249 kr.</li>
+        <li><b>The healer moral hazard.</b> You watched it work, and you know why the diff goes to a human.</li>
+        <li><b>Assertion theater</b>, <b>context rot</b>, <b>prompt injection</b> — least-privilege tools and deny rules are the mitigation, not optimism.</li>
+      </ul>
+      <p>Slides 126–127 (Simon Willison) are the strongest close in the deck for this room: <em>when someone says LLMs hinder more than help, ask after the health of their test suite.</em> It reframes their gap as the thing worth fixing rather than a failing.</p>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">17:51<em>4 min</em></div>
+    <div class="card k-say"><h3><span class="kind">Say</span>What stays yours</h3>
+      <ul>
+        <li>The model optimises for <b>plausible</b>, not true — which is why grounding it in the real DOM and the real source mattered all afternoon.</li>
+        <li><b>Coverage of the specified is not coverage of the needed.</b></li>
+        <li><b>Domain judgement.</b> Nothing in the code knew a tax cliff is wrong. A person did. Your job is increasingly to write that knowledge down where an agent can use it.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row"><div class="rail">17:55<em>5 min</em></div>
+    <div class="card k-hands"><h3><span class="kind">Close</span>Commitments round<span class="slides">NEW-5, 136</span></h3>
+      <p class="lede">Go back to the whiteboard from 11:30 and check off what they asked for. Then, each person, out loud and into the channel:</p>
+      <ul>
+        <li><b>The one workflow from today you will set up next week.</b></li>
+        <li><b>Where the human gate sits in it.</b></li>
+      </ul>
+      <div class="expect">That list is the workshop's real deliverable. <b>Photograph the whiteboard.</b> Then, if it's true, tell them the number: they arrived with zero automated UI tests and are leaving with <em>N</em> — and the method that produced them. Feedback form, two minutes, while the pain is fresh.</div>
+    </div>
+  </div>
+</section>
+
+<details class="fb">
+  <summary>If something breaks</summary>
+  <div class="body">
+    <table>
+      <tr><th>Symptom</th><th>Fix</th></tr>
+      <tr><td>MCP won't connect</td><td><span class="mono">npx playwright run-test-mcp-server --help</span> once to warm the cache. Check the JSON key — <span class="mono">mcpServers</span> in Cursor, <span class="mono">servers</span> in VS Code.</td></tr>
+      <tr><td>No commands after <span class="mono">/</span></td><td>The folder isn't the workspace root. Reopen the repo folder directly.</td></tr>
+      <tr><td>Hook doesn't block</td><td><span class="mono">chmod +x</span> the script. The <span class="mono">afterFileEdit</span> warning is the fallback — pivot the story to detect-vs-prevent.</td></tr>
+      <tr><td><span class="mono">npm test</span> fails on a clean checkout</td><td><span class="mono">npx playwright install chromium</span></td></tr>
+      <tr><td>Agent invents selectors</td><td>It skipped the browser. Tell it explicitly to explore the app first.</td></tr>
+      <tr><td>Agent writes tests asserting buggy behaviour</td><td><b>This is the lesson, not a failure.</b> Stop the room and use it.</td></tr>
+      <tr><td>Someone's Cursor has no agent mode</td><td>Pair them with someone who does. Their job becomes reviewer — the more valuable seat anyway.</td></tr>
+      <tr><td>Running long</td><td>Cut in this order: slides 144–148 (already dropped), exercise slides 79–80, slides 43–44, slide 91. <b>Never cut</b> the zero-to-green block, the gates, the reveal, or the commitments round.</td></tr>
+      <tr><td>Running short</td><td>Slide 142 — API tests from specs. They reported <em>no</em> API automation and integrate with banks and RSK. Strong second-workshop hook.</td></tr>
+    </table>
+  </div>
+</details>
+
+<footer>
+  <p>Companion to <span class="mono">WORKSHOP-SCRIPT-PAYDAY.md</span> (full script), <span class="mono">DECK-REVIEW-PAYDAY.md</span> (slide-by-slide verdicts) and <span class="mono">SEEDED-BUGS.md</span> (facilitator only — the ten planted defects).</p>
+  <p>Keep hidden throughout: slides 157, 158, 166, 173, 275, 276 — internal metrics, an unfilled placeholder, and vendor marketing.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* copy buttons */
+  document.querySelectorAll(".copy").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var pre = btn.closest(".prompt").querySelector("pre");
+      var text = pre.innerText;
+      var done = function(){
+        var old = btn.textContent;
+        btn.textContent = "Copied"; btn.classList.add("ok");
+        setTimeout(function(){ btn.textContent = old; btn.classList.remove("ok"); }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else { fallback(); }
+      function fallback(){
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.setAttribute("readonly","");
+        ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); done(); } catch(e){ btn.textContent = "Select it"; }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
+  /* jump nav built from the blocks */
+  var blocks = [].slice.call(document.querySelectorAll(".block"));
+  var jump = document.getElementById("jump");
+  blocks.forEach(function(b){
+    var t = b.querySelector(".block-time").textContent;
+    var btn = document.createElement("button");
+    btn.textContent = t;
+    btn.title = b.querySelector("h2").textContent;
+    btn.addEventListener("click", function(){
+      b.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+    jump.appendChild(btn);
+  });
+
+  /* clock + current-block highlight */
+  var starts = blocks.map(function(b){
+    var p = b.querySelector(".block-time").textContent.split(":");
+    return parseInt(p[0],10)*60 + parseInt(p[1],10);
+  });
+  var nowEl = document.getElementById("now");
+  var btns = [].slice.call(jump.children);
+  function tick(){
+    var d = new Date();
+    var mins = d.getHours()*60 + d.getMinutes();
+    var hh = String(d.getHours()).padStart(2,"0");
+    var mm = String(d.getMinutes()).padStart(2,"0");
+    var idx = -1;
+    for (var i=0;i<starts.length;i++){ if (mins >= starts[i]) idx = i; }
+    if (mins < starts[0] || mins > 18*60) idx = -1;
+    btns.forEach(function(b,i){ b.classList.toggle("on", i === idx); });
+    if (idx >= 0) {
+      nowEl.innerHTML = hh+":"+mm+" · <b>"+blocks[idx].querySelector("h2").textContent+"</b>";
+    } else {
+      nowEl.textContent = hh+":"+mm+" · outside workshop hours";
+    }
+  }
+  tick(); setInterval(tick, 20000);
+
+  /* density toggle: Run (essentials) vs Full */
+  var dens = document.getElementById("density");
+  function setDensity(full){
+    document.body.classList.toggle("run", !full);
+    dens.setAttribute("aria-pressed", String(full));
+    dens.textContent = full ? "Full" : "Run";
+    try { localStorage.setItem("pd-density", full ? "full" : "run"); } catch(e){}
+  }
+  var savedD = "full";
+  try { savedD = localStorage.getItem("pd-density") || "full"; } catch(e){}
+  setDensity(savedD === "full");
+  dens.addEventListener("click", function(){
+    setDensity(dens.getAttribute("aria-pressed") !== "true");
+  });
+
+  /* theme toggle */
+  var th = document.getElementById("theme");
+  function setTheme(mode){
+    if (mode) { document.documentElement.setAttribute("data-theme", mode); }
+    else { document.documentElement.removeAttribute("data-theme"); }
+    th.setAttribute("aria-pressed", String(!!mode));
+    try { mode ? localStorage.setItem("pd-theme", mode) : localStorage.removeItem("pd-theme"); } catch(e){}
+  }
+  var savedT = null;
+  try { savedT = localStorage.getItem("pd-theme"); } catch(e){}
+  if (savedT) setTheme(savedT);
+  th.addEventListener("click", function(){
+    var cur = document.documentElement.getAttribute("data-theme");
+    var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (!cur) setTheme(dark ? "light" : "dark");
+    else if (cur === "dark") setTheme("light");
+    else setTheme(null);
+  });
+
+  /* prep checklist persistence */
+  var prep = document.getElementById("prepbody");
+  if (prep) {
+    prep.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
+      var key = "pd-prep-" + cb.id;
+      try { if (localStorage.getItem(key) === "1") cb.checked = true; } catch(e){}
+      cb.closest(".chk").classList.toggle("done", cb.checked);
+      cb.addEventListener("change", function(){
+        cb.closest(".chk").classList.toggle("done", cb.checked);
+        try { cb.checked ? localStorage.setItem(key,"1") : localStorage.removeItem(key); } catch(e){}
+      });
+    });
+  }
+})();
+</script>

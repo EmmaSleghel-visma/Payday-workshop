@@ -6,4 +6,3 @@ playwright/.cache/
 results.json
 dist/
 .DS_Store
-facilitator/
