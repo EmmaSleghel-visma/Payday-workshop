@@ -1,0 +1,16 @@
+---
+description: Payday testing standards — naming, selectors, isolation, money assertions
+alwaysApply: true
+---
+
+Always-on standards for this repo. `AGENTS.md` holds the full version; this file is the
+Cursor dialect and must not contradict it.
+
+- Test names: `should [expected behavior] when [condition]`.
+- Selector priority: `getByTestId` > `getByRole` > semantic CSS. Never XPath.
+- Every test clears localStorage in `beforeEach`, then reloads. No shared state.
+- Auto-waiting assertions only. **Never `page.waitForTimeout()`.**
+- One logical assertion per test. Arrange–Act–Assert with comments.
+- Money assertions compare whole formatted strings (`'267.522 kr.'`), never parsed floats.
+- Read `main.js` before asserting behaviour. Do not infer it from test names.
+- When a test fails, state explicitly whether the test is stale or the app is wrong.

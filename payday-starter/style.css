@@ -1,0 +1,292 @@
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --text: #14202b;
+  --muted: #5c6b7a;
+  --border: #dfe5ec;
+  --accent: #0b6ef5;
+  --accent-text: #ffffff;
+  --danger: #c0392b;
+  --paid: #e8f5ec;
+  --shadow: 0 1px 2px rgba(20, 32, 43, 0.06), 0 8px 24px rgba(20, 32, 43, 0.06);
+}
+
+:root[data-theme='dark'] {
+  --bg: #10161d;
+  --surface: #1a232d;
+  --text: #e8eef4;
+  --muted: #9aabbb;
+  --border: #2b3743;
+  --accent: #4d9bff;
+  --accent-text: #08121d;
+  --danger: #ff8a7a;
+  --paid: #172c22;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 2.5rem 1.25rem;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.app {
+  max-width: 68rem;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 1.75rem;
+}
+
+.app-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-mark {
+  font-size: 2rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.theme-toggle {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.period {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.period label {
+  color: var(--muted);
+}
+
+.period-label {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.employee-form {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field label {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+input[type='text'],
+input[type='number'],
+input[type='month'] {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.9375rem;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button[type='submit'] {
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form-error {
+  margin: 0.85rem 0 0;
+  color: var(--danger);
+  font-size: 0.875rem;
+}
+
+.payroll {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.payroll th,
+.payroll td {
+  text-align: left;
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.payroll th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.payroll .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.name-cell {
+  font-weight: 500;
+}
+
+.kennitala-cell {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.net-cell {
+  font-weight: 600;
+}
+
+.employee-row.paid {
+  background: var(--paid);
+}
+
+.remove-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--danger);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.empty-state {
+  margin: 1.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+.empty-state[hidden] {
+  display: none;
+}
+
+.run-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.run-summary dl {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+}
+
+.run-summary dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.run-summary dd {
+  margin: 0.2rem 0 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.clear-paid {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.clear-paid[hidden] {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  .employee-form {
+    grid-template-columns: 1fr;
+  }
+
+  .payroll {
+    font-size: 0.8125rem;
+  }
+}

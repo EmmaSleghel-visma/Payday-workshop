@@ -80,6 +80,8 @@ test.describe('Salary run — employee list', () => {
     await expect(page.locator('.employee-row')).toHaveCount(0);
     await expect(page.getByTestId('empty-state')).toBeVisible();
   });
+
+
 });
 
 test.describe('Salary run — run totals', () => {
@@ -131,6 +133,7 @@ test.describe('Salary run — run totals', () => {
     await expect(page.locator('.employee-row')).toHaveCount(1);
     await expect(page.locator('.name-cell')).toHaveText(EMPLOYEE.name);
   });
+
 });
 
 test.describe('Salary run — persistence', () => {

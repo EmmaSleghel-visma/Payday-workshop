@@ -1,0 +1,67 @@
+{
+  "_comment": "Every kennitala here is verified against the mod-11 check digit in fixtures/kennitala.ts. Do not hand-edit these values — regenerate with makeKennitala().",
+  "employees": [
+    { "name": "Anna Karlsson", "kennitala": "1203752029", "salary": 750000, "note": "typical case" },
+    { "name": "Erik Lindberg", "kennitala": "0101902079", "salary": 600000, "note": "typical case" },
+    { "name": "Maria Silva", "kennitala": "2411882059", "salary": 940000, "note": "above the tax band threshold" },
+    { "name": "Sofia Nilsson", "kennitala": "0706962079", "salary": 468750, "note": "exactly at the tax band threshold" },
+    { "name": "Thomas Berg", "kennitala": "3009822049", "salary": 468749, "note": "one krona below the threshold" },
+    { "name": "Jean Pierre Rousseau", "kennitala": "1505692069", "salary": 1250000, "note": "three-part name" },
+    { "name": "Li Wei", "kennitala": "0202012070", "salary": 425000, "note": "2000s century marker" },
+    { "name": "Laura Moreau", "kennitala": "1908932009", "salary": 100001, "note": "net lands on a fractional krona" }
+  ],
+  "kennitalaCases": [
+    { "value": "1203752029", "valid": true, "why": "correct check digit, 1900s marker" },
+    { "value": "120375-2029", "valid": true, "why": "separated form must normalise" },
+    { "value": "0101012040", "valid": true, "why": "2000s century marker" },
+    { "value": "4212751069", "valid": true, "why": "company — day of month has 40 added" },
+    { "value": "1203752039", "valid": false, "why": "shape is right, check digit is wrong" },
+    { "value": "1203752025", "valid": false, "why": "century marker must be 0 or 9" },
+    { "value": "3203752029", "valid": false, "why": "day 32 does not exist" },
+    { "value": "1213752029", "valid": false, "why": "month 13 does not exist" },
+    { "value": "0000000000", "valid": false, "why": "passes a length check and means nothing" },
+    { "value": "12345", "valid": false, "why": "too short" },
+    { "value": "abcdef1234", "valid": false, "why": "not digits" },
+    { "value": "", "valid": false, "why": "empty" }
+  ],
+  "salaryCases": [
+    { "value": 750000, "category": "typical", "expectedBehaviour": "accepted" },
+    { "value": 468750, "category": "boundary", "expectedBehaviour": "taxable base lands exactly on the band threshold" },
+    { "value": 468749, "category": "boundary", "expectedBehaviour": "one krona below the threshold — tax must be marginally lower, not thousands lower" },
+    { "value": 468751, "category": "boundary", "expectedBehaviour": "one krona above the threshold" },
+    { "value": 100001, "category": "rounding", "expectedBehaviour": "net is fractional; display must be whole kronur and totals must match the rows" },
+    { "value": 0, "category": "boundary", "expectedBehaviour": "accepted or rejected — but specified either way" },
+    { "value": -500000, "category": "negative", "expectedBehaviour": "rejected" },
+    { "value": 9500000, "category": "large", "expectedBehaviour": "accepted, formatted correctly" },
+    { "value": 999999999999, "category": "absurd", "expectedBehaviour": "rejected or handled without overflow" }
+  ],
+  "nameCases": [
+    { "value": "Anna Karlsson", "category": "icelandic", "expectedBehaviour": "stored and displayed unchanged" },
+    { "value": "Anne-Marie Fitzgerald-Montgomery", "category": "hyphenated", "expectedBehaviour": "accepted" },
+    { "value": "Bo", "category": "short", "expectedBehaviour": "accepted" },
+    { "value": "", "category": "empty", "expectedBehaviour": "rejected" },
+    { "value": "   ", "category": "whitespace", "expectedBehaviour": "rejected — trimmed to empty" },
+    { "value": "<em>Markup</em>", "category": "markup", "expectedBehaviour": "rendered as inert literal text, never parsed as HTML" },
+    { "value": "Erik                                                  Lindberg", "category": "whitespace", "expectedBehaviour": "specified — collapsed or preserved, but decided" }
+  ],
+  "localeFormatting": {
+    "note": "is-IS and en-US disagree on both separators and date order. Every case below is the same value rendered two ways, and in each pair the en-US rendering is a plausible-looking wrong answer rather than an obvious error. This is why locale assertions must compare formatted strings against an is-IS expectation, never against a number.",
+    "numbers": [
+      { "value": 1500, "is-IS": "1.500", "en-US": "1,500", "trap": "the group separator and the decimal separator are swapped between the two locales" },
+      { "value": 1.5, "is-IS": "1,5", "en-US": "1.5", "trap": "reading 1,5 as fifteen hundred is a four-order-of-magnitude error" },
+      { "value": 267521.315, "is-IS": "267.521,315", "en-US": "267,521.315", "trap": "the is-IS form reads like a large whole number, which is how a fractional krona survives review" }
+    ],
+    "dates": [
+      { "iso": "2026-09-04", "is-IS": "4.9.2026", "en-US": "9/4/2026", "trap": "both are valid dates in both locales — 4 September or 9 April, and nothing on screen says which" },
+      { "iso": "2026-12-04", "is-IS": "4.12.2026", "en-US": "12/4/2026", "trap": "for any day of the month up to 12 the two readings are indistinguishable" },
+      { "iso": "2026-09-25", "is-IS": "25.9.2026", "en-US": "9/25/2026", "trap": "days above 12 are the only ones that give the mistake away, which is why the bug ships" }
+    ],
+    "payDate": {
+      "rule": "Wages land on the 4th of the month following the pay period.",
+      "cases": [
+        { "period": "2026-08", "correct": "4.9.2026", "appRenders": "9/4/2026" },
+        { "period": "2026-12", "correct": "4.1.2027", "appRenders": "1/4/2027" }
+      ]
+    }
+  }
+}

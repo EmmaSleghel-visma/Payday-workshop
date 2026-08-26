@@ -1,0 +1,70 @@
+---
+description: Icelandic payroll domain knowledge — kennitala, ISK rounding, marginal tax, is-IS locale. Request this when reasoning about payroll correctness, test data, or money formatting.
+alwaysApply: false
+---
+
+Agent-requested rule. Ask for it by name when a task touches payroll correctness.
+
+## Kennitala (Icelandic national ID)
+
+Ten digits, shown `DDMMYY-NNNC`.
+
+- Digits 1–6: date of birth, `DDMMYY`.
+- Digits 7–8: sequence number.
+- Digit 9: **mod-11 check digit**.
+- Digit 10: century marker (`9` for 1900s, `0` for 2000s).
+
+Check digit algorithm: multiply digits 1–8 by the weights `3, 2, 7, 6, 5, 4, 3, 2`, sum
+them, take `sum mod 11`. If the remainder is 0 the check digit is 0; otherwise it is
+`11 - remainder`. A remainder of 1 means the number is invalid (it would need a check
+digit of 10).
+
+Length-only validation accepts roughly ten times more invalid numbers than it rejects.
+A correct implementation lives in `fixtures/kennitala.ts`.
+
+Companies also have kennitalas, distinguished by a first digit of 4–7 rather than a real
+day of month — a validator that assumes a person will reject every company.
+
+## ISK
+
+- No minor unit in practice. Amounts shown to a user are whole kronur.
+- Formatting is `is-IS`: `.` groups thousands, `,` is the decimal separator.
+  `267521.3152` formats as `267.521,315` — which is both wrong for ISK and easy to miss
+  in a screenshot.
+- **Round once, at the display boundary.** Totals must equal the sum of the displayed
+  rows. Summing unrounded values and rounding the total produces off-by-a-few-kronur
+  differences that reconciliation will find later, expensively.
+
+## Tax and pension
+
+- Pension is withheld from gross before income tax.
+- Income tax is **marginal**: a higher rate applies only to the portion of income above
+  the threshold, never to the whole amount. Applying the higher rate to the entire base
+  once the threshold is crossed creates a cliff where earning more takes home less.
+- A personal allowance is a credit subtracted from computed tax, floored at zero — a
+  negative tax must never become extra pay.
+- The constants in `main.js` are a simplified teaching model, not Icelandic tax law.
+  Read them from the source rather than assuming a rate.
+
+## Locale — the dangerous part is the punctuation, not the alphabet
+
+**Numbers.** `is-IS` groups thousands with `.` and marks decimals with `,` — the exact
+opposite of `en-US`. So `1.500` means one thousand five hundred, and `1,5` means one and a
+half. A system that reads an `en-US` `1.500` as Icelandic pays somebody 1500 when they
+meant 1.5, or the reverse. This is why money is asserted as a **whole formatted string**
+and never parsed back to a float: parsing is where the two conventions collide silently.
+
+**Dates.** `is-IS` is `d.M.yyyy`; `en-US` is `M/d/yyyy`. The same day renders as `4.9.2026`
+or `9/4/2026`, and for any day of the month up to 12 **the two are indistinguishable
+without knowing the locale**. On a payslip, "when was I paid" should not have two answers.
+Any date shown to a user, or parsed from a user, needs an explicit locale.
+
+**Names.** Keep test names plain and international — the product UI is English. What a name
+field still needs tested: hyphenated, multi-part, very short, very long, leading and
+trailing whitespace, and markup-shaped strings.
+
+## What this means for test design
+
+Boundary values worth having in every payroll suite: exactly at a band threshold, one
+krona either side of it, zero, negative, a very large salary, and an amount whose net
+lands on a fractional krona.

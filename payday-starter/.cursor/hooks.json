@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": ".cursor/hooks/block-waitfortimeout.sh",
+        "matcher": "Write",
+        "failClosed": false
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/warn-waitfortimeout.sh"
+      }
+    ]
+  }
+}
